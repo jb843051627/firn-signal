@@ -1,0 +1,9 @@
+.git/
+data/
+*.db
+*.db-shm
+*.db-wal
+cases/
+temporary-repairs/
+_docker/
+*.log
