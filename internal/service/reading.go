@@ -36,6 +36,15 @@ func (l *Lab) RecordReading(ctx context.Context, input model.RecordReadingInput)
 	if probe.BoreholeID != scan.BoreholeID || !probe.Covers(input.DepthM) {
 		return model.ThermalReading{}, fmt.Errorf("probe does not cover reading: %w", model.ErrInvalidInput)
 	}
+	existing, err := l.ListReadings(ctx, input.ScanID)
+	if err != nil {
+		return model.ThermalReading{}, err
+	}
+	for _, current := range existing {
+		if current.ID == input.ID {
+			return model.ThermalReading{}, fmt.Errorf("reading already exists: %w", model.ErrAlreadyExists)
+		}
+	}
 	reading := model.ThermalReading{ID: input.ID, ScanID: input.ScanID, ProbeID: input.ProbeID, DepthM: input.DepthM, TempC: input.TempC, Conductivity: input.Conductivity, CollectedAt: input.CollectedAt, Labels: model.CloneLabels(input.Labels)}
 	if err := l.store.Save(ctx, "reading", reading.ID, reading); err != nil {
 		return model.ThermalReading{}, err
