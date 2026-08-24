@@ -10,6 +10,9 @@ import (
 )
 
 func (l *Lab) RecordReading(ctx context.Context, input model.RecordReadingInput) (model.ThermalReading, error) {
+	lock := scanLock(l, input.ScanID)
+	lock.Lock()
+	defer lock.Unlock()
 	if err := validation.Identifier(input.ID, "id"); err != nil {
 		return model.ThermalReading{}, err
 	}
