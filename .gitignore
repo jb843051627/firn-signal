@@ -1,0 +1,9 @@
+data/
+*.db
+*.db-shm
+*.db-wal
+cases/
+temporary-repairs/
+_docker/
+*_fields.json
+*_calibrate_config.json
