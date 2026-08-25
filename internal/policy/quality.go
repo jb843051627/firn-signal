@@ -7,7 +7,7 @@ import (
 )
 
 func Assess(scan model.ThermalScan, profile model.ThermalProfile, readings []model.ThermalReading, reviewer string, now time.Time) model.QualityAssessment {
-	signals := []model.Signal{}
+	signals := Signals(profile, readings)
 	score := 100.0 - float64(len(signals))*12
 	for _, signal := range signals {
 		if signal.Level == model.SignalBlocker {
