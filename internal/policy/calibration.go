@@ -18,7 +18,7 @@ func SelectCalibration(values []model.Calibration, now time.Time) (model.Calibra
 		return model.Calibration{}, model.ErrNotFound
 	}
 	sort.Slice(active, func(i, j int) bool { return active[i].CheckedAt.Before(active[j].CheckedAt) })
-	return active[0], nil
+	return active[len(active)-1], nil
 }
 
 func ValidCalibration(calibration model.Calibration, now time.Time) error {

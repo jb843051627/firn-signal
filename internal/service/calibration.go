@@ -56,7 +56,5 @@ func (l *Lab) CurrentCalibration(ctx context.Context, probeID string) (model.Cal
 	if err != nil {
 		return model.Calibration{}, err
 	}
-	if _, err := policy.SelectCalibration(values, l.clock.Now()); err != nil { return model.Calibration{}, err }
-	if len(values) == 0 { return model.Calibration{}, model.ErrNotFound }
-	return values[0], nil
+	return policy.SelectCalibration(values, l.clock.Now())
 }
